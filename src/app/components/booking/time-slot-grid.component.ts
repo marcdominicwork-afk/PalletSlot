@@ -5,33 +5,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-time-slot-grid',
   standalone: true,
   imports: [CommonModule],
-  template: `
-    <div class="space-y-4">
-      <h3 class="text-lg font-semibold text-slate-900">Select Your Time Slot</h3>
-      
-      <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
-        <button
-          *ngFor="let slot of timeSlots"
-          (click)="selectSlot(slot)"
-          [disabled]="!slot.available"
-          [class.bg-blue-600]="selectedTime === slot.time"
-          [class.text-white]="selectedTime === slot.time"
-          [class.bg-slate-100]="selectedTime !== slot.time && slot.available"
-          [class.bg-red-100]="!slot.available"
-          [class.text-red-600]="!slot.available"
-          [class.cursor-not-allowed]="!slot.available"
-          class="px-4 py-3 rounded-md text-sm font-medium transition-colors hover:shadow-md disabled:cursor-not-allowed"
-        >
-          {{slot.time}}
-        </button>
-      </div>
-
-      <div *ngIf="!hasAvailableSlots" class="text-center py-8 text-slate-600">
-        <p class="text-lg font-medium">No available time slots for this date</p>
-        <p class="text-sm mt-2">Please try a different date or check back later</p>
-      </div>
-    </div>
-  `,
+  templateUrl: './time-slot-grid.component.html',
   styles: []
 })
 export class TimeSlotGridComponent implements OnChanges {

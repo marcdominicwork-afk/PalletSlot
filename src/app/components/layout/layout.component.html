@@ -1,0 +1,88 @@
+<div class="min-h-screen bg-slate-50">
+  <header class="bg-gradient-to-r from-slate-900 to-slate-800 text-white shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <!-- Logo -->
+        <div class="flex items-center">
+          <a routerLink="/booking" class="flex items-center space-x-2 text-white">
+            <svg class="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            <span class="text-xl font-bold">PalletSlot</span>
+          </a>
+        </div>
+
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex items-center space-x-4">
+          <a 
+            *ngFor="let link of publicLinks"
+            [routerLink]="link.path"
+            routerLinkActive="bg-blue-600"
+            [routerLinkActiveOptions]="{exact: false}"
+            class="flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium text-slate-200 hover:bg-blue-800 hover:text-white transition-colors"
+          >
+            <span [innerHTML]="getIcon(link.icon)"></span>
+            <span>{{link.name}}</span>
+          </a>
+
+          <!-- Admin Menu -->
+          <div *ngIf="user && (user.role === 'admin' || user.role === 'company_admin')" class="relative">
+            <button
+              (click)="toggleAdminMenu()"
+              class="flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+              [class.bg-blue-600]="isAdminMenuOpen"
+              [class.text-slate-200]="!isAdminMenuOpen"
+              [class.hover:bg-blue-800]="!isAdminMenuOpen"
+            >
+              <span>Admin</span>
+              <svg class="w-4 h-4 transition-transform" [class.rotate-180]="isAdminMenuOpen" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div 
+              *ngIf="isAdminMenuOpen"
+              class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50"
+              (mouseleave)="closeAdminMenu()"
+            >
+              <a
+                *ngFor="let item of getFilteredAdminLinks()"
+                [routerLink]="item.path"
+                (click)="closeAdminMenu()"
+                class="flex items-center space-x-2 px-4 py-2 text-sm text-slate-700 hover:bg-slate-100"
+              >
+                <span [innerHTML]="getIcon(item.icon)"></span>
+                <span>{{item.name}}</span>
+              </a>
+            </div>
+          </div>
+        </nav>
+
+        <!-- User Section -->
+        <div class="flex items-center">
+          <div *ngIf="isLoading" class="text-slate-400">
+            <svg class="w-6 h-6 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+          </div>
+          <div *ngIf="!isLoading && user" class="flex items-center space-x-4">
+            <span class="hidden sm:inline text-sm text-slate-300">Welcome, {{user.full_name}}</span>
+            <button
+              (click)="handleLogout()"
+              class="p-2 text-slate-300 hover:bg-blue-800 hover:text-white rounded-md transition-colors"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+      <ng-content></ng-content>
+    </div>
+  </main>
+</div>
