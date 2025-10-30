@@ -23,7 +23,7 @@ author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "npm run dev"
+args = "npm start"
 waitForPort = 5000
 
 [workflows.workflow.metadata]
@@ -34,10 +34,10 @@ localPort = 5000
 externalPort = 80
 
 [[ports]]
-localPort = 36575
+localPort = 38777
 externalPort = 3000
 
 [deployment]
 deploymentTarget = "autoscale"
-run = ["npx", "vite", "preview", "--host", "0.0.0.0", "--port", "5000"]
+run = ["npx", "-y", "http-server", "dist/base44-angular/browser", "-p", "5000", "-a", "0.0.0.0"]
 build = ["npm", "run", "build"]
