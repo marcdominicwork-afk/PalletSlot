@@ -33,10 +33,6 @@ outputType = "webview"
 localPort = 5000
 externalPort = 80
 
-[[ports]]
-localPort = 38777
-externalPort = 3000
-
 [deployment]
 deploymentTarget = "autoscale"
 run = ["npx", "-y", "http-server", "dist/base44-angular/browser", "-p", "5000", "-a", "0.0.0.0"]
