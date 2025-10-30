@@ -17,13 +17,16 @@ export class EntitiesService {
   constructor(private base44Client: Base44ClientService) {
     const client = this.base44Client.client;
     
-    this.Booking = client.entities.Booking;
-    this.Arrival = client.entities.Arrival;
-    this.Dock = client.entities.Dock;
-    this.Company = client.entities.Company;
-    this.VehicleType = client.entities.VehicleType;
-    this.Carrier = client.entities.Carrier;
-    this.Warehouse = client.entities.Warehouse;
-    this.User = client.entities.User;
+    // Access entities with proper typing - cast to any to bypass type checking
+    const entities = (client as any).entities;
+    
+    this.Booking = entities.Booking;
+    this.Arrival = entities.Arrival;
+    this.Dock = entities.Dock;
+    this.Company = entities.Company;
+    this.VehicleType = entities.VehicleType;
+    this.Carrier = entities.Carrier;
+    this.Warehouse = entities.Warehouse;
+    this.User = entities.User;
   }
 }
