@@ -159,8 +159,13 @@ export class LayoutComponent implements OnInit {
   async loadUser() {
     this.isLoading = true;
     try {
-      const currentUser = await this.entities.User.me();
-      this.user = currentUser as any;
+      const userEntity = (this.entities.User as any);
+      if (userEntity && typeof userEntity.me === 'function') {
+        const currentUser = await userEntity.me();
+        this.user = currentUser as any;
+      } else {
+        this.user = null;
+      }
     } catch (e) {
       this.user = null;
     } finally {
@@ -170,7 +175,10 @@ export class LayoutComponent implements OnInit {
 
   async handleLogout() {
     try {
-      await this.entities.User.logout();
+      const userEntity = (this.entities.User as any);
+      if (userEntity && typeof userEntity.logout === 'function') {
+        await userEntity.logout();
+      }
       this.user = null;
       this.router.navigate(['/booking']);
     } catch (e) {
