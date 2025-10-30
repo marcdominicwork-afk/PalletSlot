@@ -1,0 +1,69 @@
+<div class="min-h-screen py-8 px-4">
+  <div class="max-w-7xl mx-auto">
+    <div class="flex justify-between items-center mb-8">
+      <div>
+        <h1 class="text-4xl font-bold text-slate-900 mb-2">Vehicle Types</h1>
+        <p class="text-lg text-slate-600">Manage vehicle configurations</p>
+      </div>
+      <button (click)="openCreateModal()" class="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 font-medium">+ Add Vehicle Type</button>
+    </div>
+
+    <div *ngIf="isLoading" class="text-center py-12">
+      <div class="inline-block w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+    </div>
+
+    <div *ngIf="!isLoading" class="bg-white rounded-lg shadow-sm overflow-hidden">
+      <table class="w-full">
+        <thead class="bg-slate-50 border-b">
+          <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Name</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Max Pallets</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Company</th>
+            <th class="px-6 py-3 text-right text-xs font-medium text-slate-500 uppercase">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y">
+          <tr *ngFor="let type of vehicleTypes" class="hover:bg-slate-50">
+            <td class="px-6 py-4"><div class="text-sm font-medium text-slate-900">{{type.name}}</div></td>
+            <td class="px-6 py-4"><div class="text-sm text-slate-900">{{type.max_pallets}}</div></td>
+            <td class="px-6 py-4"><div class="text-sm text-slate-900">{{type.company?.name || 'N/A'}}</div></td>
+            <td class="px-6 py-4 text-right">
+              <button (click)="editVehicleType(type)" class="text-blue-600 hover:text-blue-900 mr-4">Edit</button>
+              <button (click)="deleteVehicleType(type)" class="text-red-600 hover:text-red-900">Delete</button>
+            </td>
+          </tr>
+          <tr *ngIf="vehicleTypes.length === 0">
+            <td colspan="4" class="px-6 py-12 text-center text-slate-500">No vehicle types found.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div *ngIf="showModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4">
+        <h2 class="text-2xl font-bold mb-6">{{editingVehicleType ? 'Edit' : 'Create'}} Vehicle Type</h2>
+        <form (ngSubmit)="saveVehicleType()" class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium mb-2">Type Name *</label>
+            <input type="text" [(ngModel)]="formData.name" name="name" required class="w-full h-10 rounded-md border px-3 py-2 focus:ring-2 focus:ring-blue-600" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-2">Max Pallets *</label>
+            <input type="number" [(ngModel)]="formData.max_pallets" name="max_pallets" min="1" required class="w-full h-10 rounded-md border px-3 py-2 focus:ring-2 focus:ring-blue-600" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-2">Company *</label>
+            <select [(ngModel)]="formData.company_id" name="company_id" required class="w-full h-10 rounded-md border px-3 py-2">
+              <option value="">Select company...</option>
+              <option *ngFor="let company of companies" [value]="company.id">{{company.name}}</option>
+            </select>
+          </div>
+          <div class="flex gap-3 pt-4">
+            <button type="submit" [disabled]="isSaving" class="flex-1 px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50">{{isSaving ? 'Saving...' : 'Save'}}</button>
+            <button type="button" (click)="closeModal()" class="flex-1 px-6 py-2 border rounded-md hover:bg-slate-50">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
