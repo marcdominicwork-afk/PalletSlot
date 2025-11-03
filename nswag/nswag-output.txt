@@ -1,0 +1,10 @@
+NSwag NPM CLI
+Using runtime: Net80
+NSwag command line tool for .NET Core Net80, toolchain v14.6.1.0 (NJsonSchema v11.5.1.0 (Newtonsoft.Json v13.0.0.0))
+Visit http://NSwag.org for more information.
+NSwag bin directory: C:\PalletSlotFinal\node_modules\nswag\bin\binaries\Net80
+
+Executing file 'C:\PalletSlotFinal\nswag\service.config.nswag' with variables ''...
+Done.
+
+Duration: 00:00:00.8270057

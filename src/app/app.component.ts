@@ -6,12 +6,7 @@ import { LayoutComponent } from './components/layout/layout.component';
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, LayoutComponent],
-  template: `
-    <app-layout>
-      <router-outlet></router-outlet>
-    </app-layout>
-  `
+  templateUrl: './app.component.html',
 })
 export class AppComponent {
-  title = 'base44-angular';
 }
